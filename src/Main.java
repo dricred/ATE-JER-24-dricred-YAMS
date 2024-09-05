@@ -40,8 +40,39 @@ public class Main {
         }
     }
 
+    /**
+     * calcule le total des valeurs entiers d'un tableau
+     * @param tableauEntiers le tableau contenant des valeurs entières
+     */
+    private static int calculeSommeTableauEntier(int[] tableauEntiers) {
+        int totalDes = 0;
+        for (int valeur : tableauEntiers) {
+            totalDes += valeur;
+        }
+        return totalDes;
+    }
+
+    /**
+     * Affiche le total des valeurs entier d'un tableau
+     * @param tableauEntiers le tableau contenant des valeurs entières
+     */
+    private static void afficheSommeTableauEntier(int[] tableauEntiers) {
+        System.out.println("Toltal des dés : " + calculeSommeTableauEntier(tableauEntiers));
+    }
+
+    /**
+     * Fait un affichage complet pour tous nos dés (leur face visible + la somme de ces faces)
+     * @param tableauEntiers le tableau contenant des valeurs entières
+     */
+    private static void affichageComplet(int[] tableauEntiers) {
+        System.out.println("Dés obtenues : ");
+        affichageTableau(tableauEntiers);
+        afficheSommeTableauEntier(tableauEntiers);
+    }
+
     public static void main(String[] args) {
         int[] tabDes = lancerXDe(NOMBRE_DES, NOMBRE_FACES);
-        affichageTableau(tabDes);
+        affichageComplet(tabDes);
+
     }
 }
