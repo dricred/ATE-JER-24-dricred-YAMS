@@ -1,10 +1,12 @@
 package src;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
     private static final int NOMBRE_FACES = 6;
     private static final int NOMBRE_DES = 5;
+    private static final int NOMBRE_TOURS = 3; // (le nombre de jet de dés dispo)
 
     /**
      * Prend un nombre aléatoire entre 1 et le nombre donné (simulation d'un dé)
@@ -70,9 +72,65 @@ public class Main {
         afficheSommeTableauEntier(tableauEntiers);
     }
 
+    /**
+     * demande à l'utilisateur un message donné, puis retourne sa réponse
+     * @param prompt le message à demander
+     * @return la réponse de l'utilisateur
+     */
+    private static String demandeUneReponse(String prompt) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(prompt);
+        return scanner.nextLine().toLowerCase();
+    }
+
+    /**
+     * demande à l'utilisateur s'il veut relancer ses dés
+     * @return la réponse de l'utilisateur (oui ou non)
+     */
+    private static String demandeRelancerDes() {
+        return demandeUneReponse("Voulez-vous relancer les dés ? [oui/non]");
+    }
+
+    /**
+     * demande à l'utilisateur quelles sont les dés à relancer
+     * @return le/les numéro(s) des dés à relancer
+     */
+    private static String[] retourneValeurEcrit() {
+        String reponseDesRelance = demandeUneReponse("Quelles dés voulez-vous relancer ? [1|2|3|4|5]");
+        String[] values = reponseDesRelance.split("\\|");
+        return values;
+    }
+
+    /**
+     * Demande la confirmation de l'utlisateur de relancer les dés et les quelles
+     *@param tableauEntiers le tableau contenant des valeurs entières
+     * @param nbrJetDe le nombre de tours disponible
+     * @param nbrFaces le nombre max que l'on peut tirer
+     */
+    private static void relancerDes(int[] tableauEntiers, int nbrJetDe, int nbrFaces) {
+        int nbrLancer = 1;
+        String reponseOuiOuNon = "";
+        boolean estOui = false;
+
+        do {
+            reponseOuiOuNon = demandeRelancerDes();
+            estOui = reponseOuiOuNon.equals("oui");
+            nbrLancer++;
+
+            if (estOui) {
+                for (String element : retourneValeurEcrit()) {
+                    tableauEntiers[Integer.parseInt(element) - 1] = lancerUnDe(nbrFaces);
+                }
+                affichageComplet(tableauEntiers);
+            }
+        } while (estOui && nbrLancer < nbrJetDe);
+    }
+
     public static void main(String[] args) {
+        // Premier Jet de dés
         int[] tabDes = lancerXDe(NOMBRE_DES, NOMBRE_FACES);
         affichageComplet(tabDes);
 
+        relancerDes(tabDes, NOMBRE_TOURS, NOMBRE_FACES);
     }
 }
