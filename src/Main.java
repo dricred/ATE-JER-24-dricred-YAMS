@@ -129,13 +129,46 @@ public class Main {
     /**
      * vérifie si le résultats de nos lancés de dés sont Yams (tous équaux)
      * @param tableauDes le tableau contenant les valeurs des dés
-     * @return si les dés sont tous équaux (Yams)
+     * @return si les dés sont tous équaux ou non ("Yams")
      */
     private static boolean estYams(int[] tableauDes) {
         return tableauDes[0] == tableauDes[1] &&
                 tableauDes[1] == tableauDes[2] &&
                 tableauDes[2] == tableauDes[3] &&
                 tableauDes[3] == tableauDes[4];
+    }
+
+    /**
+     * Vérifie si il y a un nombre donné de dés identiques
+     * @param tableauDes le tableau contenant les valeurs des dés
+     * @param nbrDesIdentique le nombre de dés qui doivent être identique
+     * @param nbrDes Le nombre de chiffre à tirer
+     * @return s'il y le nombre donné de dés identiques ou non
+     */
+    private static boolean desIdentique(int[] tableauDes, int nbrDesIdentique, int nbrDes) {
+        int desIdentique = 0;
+        for (int indexActuel = 0; indexActuel < nbrDes; indexActuel++) {
+            for (int indexSuivants = indexActuel + 1; indexSuivants < nbrDes; indexSuivants++) {
+                if (tableauDes[indexActuel] == tableauDes[indexSuivants]) {
+                    desIdentique++;
+                }
+                if (desIdentique >= nbrDesIdentique) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param tableauDes le tableau contenant les valeurs des dés
+     * @param nbrDesIdentique le nombre de dés qui doivent être identique
+     * @param nbrDes Le nombre de chiffre à tirer
+     * @return s'il y a 3 dés de même valeurs ou non ("Brelan")
+     */
+    private static boolean estBrelan(int[] tableauDes, int nbrDesIdentique, int nbrDes) {
+        return desIdentique(tableauDes, nbrDesIdentique, nbrDes);
     }
 
     public static void main(String[] args) {
