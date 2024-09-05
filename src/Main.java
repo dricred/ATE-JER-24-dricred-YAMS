@@ -103,7 +103,7 @@ public class Main {
 
     /**
      * Demande la confirmation de l'utlisateur de relancer les dés et les quelles
-     *@param tableauEntiers le tableau contenant des valeurs entières
+     * @param tableauEntiers le tableau contenant des valeurs entières
      * @param nbrJetDe le nombre de tours disponible
      * @param nbrFaces le nombre max que l'on peut tirer
      */
@@ -126,11 +126,27 @@ public class Main {
         } while (estOui && nbrLancer < nbrJetDe);
     }
 
+    /**
+     * vérifie si le résultats de nos lancés de dés sont Yams (tous équaux)
+     * @param tableauDes le tableau contenant les valeurs des dés
+     * @return si les dés sont tous équaux (Yams)
+     */
+    private static boolean estYams(int[] tableauDes) {
+        return tableauDes[0] == tableauDes[1] &&
+                tableauDes[1] == tableauDes[2] &&
+                tableauDes[2] == tableauDes[3] &&
+                tableauDes[3] == tableauDes[4];
+    }
+
     public static void main(String[] args) {
         // Premier Jet de dés
-        int[] tabDes = lancerXDe(NOMBRE_DES, NOMBRE_FACES);
+        int[] tabDes = {1, 1, 1, 1, 1};  //lancerXDe(NOMBRE_DES, NOMBRE_FACES);
         affichageComplet(tabDes);
 
         relancerDes(tabDes, NOMBRE_TOURS, NOMBRE_FACES);
+
+        if (estYams(tabDes)) {
+            System.out.println("!!!!!!! Yams !!!!!!!");
+        }
     }
 }
