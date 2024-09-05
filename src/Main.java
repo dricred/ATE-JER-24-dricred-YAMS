@@ -4,17 +4,44 @@ import java.util.Random;
 
 public class Main {
     private static final int NOMBRE_FACES = 6;
+    private static final int NOMBRE_DES = 5;
 
     /**
-     * Prend un nombre aléatoire entre 1 et 6 (simulation d'un dé)
-     * @return le nombre aléatoire
+     * Prend un nombre aléatoire entre 1 et le nombre donné (simulation d'un dé)
+     * @param nbrFace le nombre max que l'on peut tirer
+     * @return le nombre aléatoire obtenu
      */
     private static int lancerUnDe(int nbrFace) {
         Random random = new Random();
         return random.nextInt(nbrFace) + 1;
     }
 
+    /**
+     * Prend plusieurs nombres aléatoire en fonction du nombre donné en paramètre (simulation de plusieurs dés lancé)
+     * @param nbrDes Le nombre de chiffre à tirer
+     * @param nbrFaces le nombre max que l'on peut tirer
+     * @return un tableau avec les valeurs des nombres aléatoires obtenus
+     */
+    private static int[] lancerXDe(int nbrDes, int nbrFaces) {
+        int[] tableauEntiers = new int[nbrDes];
+        for (int i = 0; i < nbrDes; i++) {
+            tableauEntiers[i] += lancerUnDe(nbrFaces);
+        }
+        return tableauEntiers;
+    }
+
+    /**
+     * affiche le contenu d'un tableau donné
+     * @param tableauEntiers le table à afficher
+     */
+    private static void affichageTableau(int[] tableauEntiers) {
+        for (int i = 0; i < tableauEntiers.length; i++) {
+            System.out.println("Dé [" + (i + 1) + "] : " + tableauEntiers[i]);
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(lancerUnDe(NOMBRE_FACES));
+        int[] tabDes = lancerXDe(NOMBRE_DES, NOMBRE_FACES);
+        affichageTableau(tabDes);
     }
 }
