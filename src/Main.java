@@ -100,8 +100,9 @@ public class Main {
      * @return le/les numéro(s) des dés à relancer
      */
     private static String[] retourneValeurEcrit() {
-        String reponseDesRelance = demandeUneReponse("Quelles dés voulez-vous relancer ? [1|2|3|4|5]");
-        String[] values = reponseDesRelance.split("\\|");
+        String reponseDesRelance = demandeUneReponse("Quelles dés voulez-vous relancer [1 à " + NOMBRE_FACES
+                        + "] ? Séparez les par des espaces");
+        String[] values = reponseDesRelance.split(" ");
         return values;
     }
 
@@ -163,33 +164,30 @@ public class Main {
     /**
      * vérifie si le résultats de nos lancés de dés sont Brelan (3 dés de même valeurs)
      * @param tableauDes le tableau contenant les valeurs des dés
-     * @param nbrDesIdentique le nombre de dés qui doivent être de la même valeurs
      * @param nbrDes Le nombre de chiffre à tirer
      * @return s'il y a 3 dés de même la valeurs ou non ("Brelan")
      */
-    private static boolean estBrelan(int[] tableauDes, int nbrDesIdentique, int nbrDes) {
+    private static boolean estBrelan(int[] tableauDes, int nbrDes) {
         return nbrDesIdentique(tableauDes, nbrDes) >= NBR_DES_BRELAN;
     }
 
     /**
      * vérifie si le résultats de nos lancés de dés sont Carre (4 dés de même valeurs)
      * @param tableauDes le tableau contenant les valeurs des dés
-     * @param nbrDesIdentique le nombre de dés qui doivent être de la même valeurs
      * @param nbrDes Le nombre de chiffre à tirer
      * @return s'il y a 4 dés de la même valeurs ou non ("Carre")
      */
-    private static boolean estCarre(int[] tableauDes, int nbrDesIdentique, int nbrDes) {
+    private static boolean estCarre(int[] tableauDes, int nbrDes) {
         return nbrDesIdentique(tableauDes, nbrDes) >= NBR_DES_CARRE;
     }
 
     /**
      * vérifie si le résultats de nos lancés de dés sont Full (un brelan + 2 dés de la même valeurs)
      * @param tableauDes le tableau contenant les valeurs des dés
-     * @param nbrDesIdentique le nombre de dés qui doivent être de la même valeurs
      * @param nbrDes Le nombre de chiffre à tirer
      * @return s'il y a un brelan + 2 dés de la même valeurs ou non ("Full")
      */
-    private static boolean estFull(int[] tableauDes, int nbrDesIdentique, int nbrDes) {
+    private static boolean estFull(int[] tableauDes, int nbrDes) {
         return (nbrDesIdentique(tableauDes, nbrDes) == NBR_DES_FULL);
     }
 
@@ -202,11 +200,11 @@ public class Main {
 
         if (estYams(tabDes)) {
             System.out.println("!!!!!!! Yams !!!!!!!");
-        } else if (estFull(tabDes, NBR_DES_FULL, NOMBRE_DES)) {
+        } else if (estFull(tabDes, NOMBRE_DES)) {
             System.out.println("!!!!!!! Full !!!!!!!");
-        } else if (estCarre(tabDes, NBR_DES_CARRE, NOMBRE_DES)) {
+        } else if (estCarre(tabDes, NOMBRE_DES)) {
             System.out.println("!!!!!!! Carre !!!!!!!");
-        } else if (estBrelan(tabDes, NBR_DES_BRELAN, NOMBRE_DES)) {
+        } else if (estBrelan(tabDes, NOMBRE_DES)) {
             System.out.println("!!!!!!! Brelan !!!!!!!");
         }
     }
