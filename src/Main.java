@@ -9,7 +9,7 @@ public class Main {
     private static final int NOMBRE_TOURS = 3;
 
     private static final int NBR_DES_BRELAN = 3;
-    private static final int NBR_DES_CARRE = 4;
+    private static final int NBR_DES_CARRE = 5;
     private static final int NBR_DES_FULL = 4;
 
     /**
@@ -143,21 +143,17 @@ public class Main {
     }
 
     /**
-     * Vérifie si il y a un nombre donné de dés identiques
+     * Calcule le nombre de des de même valeur dans un tableau de dés donné
      * @param tableauDes le tableau contenant les valeurs des dés
-     * @param nbrDesIdentique le nombre de dés qui doivent être de la même valeur
      * @param nbrDes Le nombre de chiffre à tirer
-     * @return s'il y le nombre donné de dés identiques ou non
+     * @return le nombre de dés identique
      */
-    private static int desIdentique(int[] tableauDes, int nbrDesIdentique, int nbrDes) {
+    private static int nbrDesIdentique (int[] tableauDes, int nbrDes) {
         int desIdentique = 0;
         for (int indexActuel = 0; indexActuel < nbrDes; indexActuel++) {
             for (int indexSuivants = indexActuel + 1; indexSuivants < nbrDes; indexSuivants++) {
                 if (tableauDes[indexActuel] == tableauDes[indexSuivants]) {
                         desIdentique++;
-                }
-                if (desIdentique >= nbrDesIdentique) {
-
                 }
             }
         }
@@ -172,7 +168,7 @@ public class Main {
      * @return s'il y a 3 dés de même la valeurs ou non ("Brelan")
      */
     private static boolean estBrelan(int[] tableauDes, int nbrDesIdentique, int nbrDes) {
-        return desIdentique(tableauDes, nbrDesIdentique, nbrDes) >= NBR_DES_BRELAN;
+        return nbrDesIdentique(tableauDes, nbrDes) >= NBR_DES_BRELAN;
     }
 
     /**
@@ -183,7 +179,7 @@ public class Main {
      * @return s'il y a 4 dés de la même valeurs ou non ("Carre")
      */
     private static boolean estCarre(int[] tableauDes, int nbrDesIdentique, int nbrDes) {
-        return desIdentique(tableauDes, nbrDesIdentique, nbrDes) > NBR_DES_CARRE;
+        return nbrDesIdentique(tableauDes, nbrDes) >= NBR_DES_CARRE;
     }
 
     /**
@@ -194,28 +190,24 @@ public class Main {
      * @return s'il y a un brelan + 2 dés de la même valeurs ou non ("Full")
      */
     private static boolean estFull(int[] tableauDes, int nbrDesIdentique, int nbrDes) {
-        return (desIdentique(tableauDes, nbrDesIdentique, nbrDes) == NBR_DES_FULL);
+        return (nbrDesIdentique(tableauDes, nbrDes) == NBR_DES_FULL);
     }
 
     public static void main(String[] args) {
 
         // Premier Jet de dés
-        int[] tabDes = {1, 1, 4, 1, 2};  //lancerXDe(NOMBRE_DES, NOMBRE_FACES);
+        int[] tabDes = lancerXDe(NOMBRE_DES, NOMBRE_FACES);
         affichageComplet(tabDes);
-
         relancerDes(tabDes, NOMBRE_TOURS, NOMBRE_FACES);
 
         if (estYams(tabDes)) {
             System.out.println("!!!!!!! Yams !!!!!!!");
-        }
-        if (estBrelan(tabDes, NBR_DES_BRELAN, NOMBRE_DES)) {
-            System.out.println("!!!!!!! Brelan !!!!!!!");
-        }
-        if (estCarre(tabDes, NBR_DES_CARRE, NOMBRE_DES)) {
-            System.out.println("!!!!!!! Carre !!!!!!!");
-        }
-        if (estFull(tabDes, NBR_DES_FULL, NOMBRE_DES)) {
+        } else if (estFull(tabDes, NBR_DES_FULL, NOMBRE_DES)) {
             System.out.println("!!!!!!! Full !!!!!!!");
+        } else if (estCarre(tabDes, NBR_DES_CARRE, NOMBRE_DES)) {
+            System.out.println("!!!!!!! Carre !!!!!!!");
+        } else if (estBrelan(tabDes, NBR_DES_BRELAN, NOMBRE_DES)) {
+            System.out.println("!!!!!!! Brelan !!!!!!!");
         }
     }
 }
