@@ -5,14 +5,18 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+    // Paramètres du jeu
     private static final int NOMBRE_FACES = 6;
     private static final int NOMBRE_DES = 5;
     private static final int NOMBRE_TOURS = 3;
+    private static final int NOMBRE_MANCHE = 5;
 
+    // Paramètres des combinaisons
     private static final int NBR_DES_BRELAN = 3;
     private static final int NBR_DES_CARRE = 5;
     private static final int NBR_DES_FULL = 4;
 
+    // Les couleurs d'affichage
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
     private static final String RESET = "\u001B[0m";
@@ -226,44 +230,51 @@ public class Main {
                 tableauDes[3] + 1 == tableauDes[4];
     }
 
-    private static String motEnPlusieurCouleur(String motSansCouleur) {
-        String motEnCouleur = "";
-        for (int i = 0; i < motSansCouleur.length(); i++) {
-            if (i % 2 == 0) {
-                motEnCouleur += RED + motSansCouleur.charAt(i);
-            } else {
-                motEnCouleur += BLUE + motSansCouleur.charAt(i);
-            }
-        }
-        return motEnCouleur;
-    }
-
+    /**
+     * Affiche l'intro du jeu
+     */
     private static void afficheDebutJeu() {
-        System.out.println(motEnPlusieurCouleur("Jeu du Yahtzee") + RESET);
+        System.out.println(RED + "Jeu du " + BLUE + "Yahtzee" + RESET);
+        System.out.println(RED + "Par " + BLUE+ "Rédouane Drici" + RESET);
         Scanner debutJeu = new Scanner(System.in);
         System.out.println("Appuyer sur entrée pour lancer le jeu ...");
         debutJeu.nextLine();
     }
 
+    private static void resultatPoint(int[] tabDes) {
+        int nbrPoints = 0;
+        System.out.println("Vous avez eu un ");
+        if (estYams(tabDes)) {
+            System.out.println("Yams.");
+            nbrPoints = 50;
+        } else if (estFull(tabDes, NOMBRE_DES)) {
+            System.out.println("Full.");
+            nbrPoints = 25;
+        } else if (estCarre(tabDes, NOMBRE_DES)) {
+            System.out.println("Carre.");
+        } else if (estBrelan(tabDes, NOMBRE_DES)) {
+            System.out.println("Brelan.");
+        } else if (estGrandeSuite(tabDes)) {
+            System.out.println("e grande suite.");
+            nbrPoints = 40;
+        } else if (estPetiteSuite(tabDes)) {
+            System.out.println("e petite suite.");
+            nbrPoints = 30;
+        } else {
+            System.out.println("e chance");
+        }
+        System.out.println("Vous recevez " + nbrPoints);
+    }
+
     public static void main(String[] args) {
         afficheDebutJeu();
-        // Premier Jet de dés
-        int[] tabDes = lancerXDe(NOMBRE_DES, NOMBRE_FACES);
-        affichageComplet(tabDes);
-        relancerDes(tabDes, NOMBRE_TOURS, NOMBRE_FACES);
 
-        if (estYams(tabDes)) {
-            System.out.println("!!!!!!! Yams !!!!!!!");
-        } else if (estFull(tabDes, NOMBRE_DES)) {
-            System.out.println("!!!!!!! Full !!!!!!!");
-        } else if (estCarre(tabDes, NOMBRE_DES)) {
-            System.out.println("!!!!!!! Carre !!!!!!!");
-        } else if (estBrelan(tabDes, NOMBRE_DES)) {
-            System.out.println("!!!!!!! Brelan !!!!!!!");
-        } else if (estGrandeSuite(tabDes)) {
-            System.out.println("!!!!!!! est grande suite !!!!!!!");
-        } else if (estPetiteSuite(tabDes)) {
-            System.out.println("!!!!!!! est petite suite !!!!!!!");
+        for (int i = 0; i < NOMBRE_MANCHE; i++) {
+            System.out.println(BLUE + "Manche : " + RED + (i + 1) + RESET);
+            int[] tabDes = lancerXDe(NOMBRE_DES, NOMBRE_FACES);
+            affichageComplet(tabDes);
+            relancerDes(tabDes, NOMBRE_TOURS, NOMBRE_FACES);
+            resultatPoint(tabDes);
         }
     }
 }
