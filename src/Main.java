@@ -1,8 +1,6 @@
 package src;
 
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     // Paramètres du jeu
@@ -13,12 +11,20 @@ public class Main {
 
     // Paramètres des combinaisons
     private static final int NBR_DES_BRELAN = 3;
-    private static final int NBR_DES_CARRE = 5;
+    private static final int NBR_DES_CARRE = 4;
     private static final int NBR_DES_FULL = 4;
+
+    // Paramètres Des points
+    private static final int NBR_POINT_YAMS = 50;
+    private static final int NBR_POINT_FULL = 25;
+    private static final int NBR_POINT_GRANDE_SUITE = 40;
+    private static final int NBR_POINT_PETITE_SUITE = 30;
 
     // Les couleurs d'affichage
     private static final String RED = "\u001B[31m";
-    private static final String BLUE = "\u001B[34m";
+    private static final String CYAN = "\u001B[36m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String PURPLE = "\u001B[35m";
     private static final String RESET = "\u001B[0m";
 
     /**
@@ -51,7 +57,7 @@ public class Main {
      */
     private static void affichageTableau(int[] tableauEntiers) {
         for (int i = 0; i < tableauEntiers.length; i++) {
-            System.out.println("Dé [" + (i + 1) + "] : " + tableauEntiers[i]);
+            System.out.println(GREEN + "Dé [" + (i + 1) + "] : " + RESET + tableauEntiers[i]);
         }
     }
 
@@ -80,7 +86,7 @@ public class Main {
      * @param tableauEntiers le tableau contenant des valeurs entières
      */
     private static void affichageComplet(int[] tableauEntiers) {
-        System.out.println("Dés obtenues : ");
+        System.out.println(PURPLE + "Dés obtenues : " + RESET);
         affichageTableau(tableauEntiers);
         afficheSommeTableauEntier(tableauEntiers);
     }
@@ -158,12 +164,13 @@ public class Main {
      * @param nbrDes     Le nombre de chiffre à tirer
      * @return le nombre de dés identique
      */
-    private static int nbrDesIdentique(int[] tableauDes, int nbrDes) {
+    private static int nbrDesIdentique(int[] tableauDes, int nbrDes, int[] faceIdentique) {
         int desIdentique = 0;
         for (int indexActuel = 0; indexActuel < nbrDes; indexActuel++) {
             for (int indexSuivants = indexActuel + 1; indexSuivants < nbrDes; indexSuivants++) {
                 if (tableauDes[indexActuel] == tableauDes[indexSuivants]) {
                     desIdentique++;
+                    faceIdentique[0] = tableauDes[indexActuel];
                 }
             }
         }
@@ -176,8 +183,8 @@ public class Main {
      * @param nbrDes     Le nombre de chiffre à tirer
      * @return s'il y a 3 dés de même la valeurs ou non ("Brelan")
      */
-    private static boolean estBrelan(int[] tableauDes, int nbrDes) {
-        return nbrDesIdentique(tableauDes, nbrDes) >= NBR_DES_BRELAN;
+    private static boolean estBrelan(int[] tableauDes, int nbrDes, int[] faceIdentique) {
+        return nbrDesIdentique(tableauDes, nbrDes, faceIdentique) >= NBR_DES_BRELAN;
     }
 
     /**
@@ -186,8 +193,8 @@ public class Main {
      * @param nbrDes     Le nombre de chiffre à tirer
      * @return s'il y a 4 dés de la même valeurs ou non ("Carre")
      */
-    private static boolean estCarre(int[] tableauDes, int nbrDes) {
-        return nbrDesIdentique(tableauDes, nbrDes) >= NBR_DES_CARRE;
+    private static boolean estCarre(int[] tableauDes, int nbrDes, int[] faceIdentique) {
+        return nbrDesIdentique(tableauDes, nbrDes, faceIdentique) > NBR_DES_CARRE;
     }
 
     /**
@@ -196,8 +203,8 @@ public class Main {
      * @param nbrDes     Le nombre de chiffre à tirer
      * @return s'il y a un brelan + 2 dés de la même valeurs ou non ("Full")
      */
-    private static boolean estFull(int[] tableauDes, int nbrDes) {
-        return (nbrDesIdentique(tableauDes, nbrDes) == NBR_DES_FULL);
+    private static boolean estFull(int[] tableauDes, int nbrDes, int[] faceIdentique) {
+        return (nbrDesIdentique(tableauDes, nbrDes, faceIdentique) == NBR_DES_FULL);
     }
 
     /**
@@ -222,7 +229,6 @@ public class Main {
      * @return s'il y a une grande suite ou non
      */
     private static boolean estGrandeSuite(int[] tableauDes) {
-
         Arrays.sort(tableauDes);
         return tableauDes[0] + 1 == tableauDes[1] &&
                 tableauDes[1] + 1 == tableauDes[2] &&
@@ -234,47 +240,87 @@ public class Main {
      * Affiche l'intro du jeu
      */
     private static void afficheDebutJeu() {
-        System.out.println(RED + "Jeu du " + BLUE + "Yahtzee" + RESET);
-        System.out.println(RED + "Par " + BLUE+ "Rédouane Drici" + RESET);
+        System.out.println(RED + "Jeu du " + CYAN + "Yahtzee" + RESET);
+        System.out.println(RED + "Par " + CYAN+ "Rédouane Drici" + RESET);
         Scanner debutJeu = new Scanner(System.in);
         System.out.println("Appuyer sur entrée pour lancer le jeu ...");
         debutJeu.nextLine();
     }
 
-    private static void resultatPoint(int[] tabDes) {
+    /**
+     * Donne le nom de la combinaison obtenue, plus le nombre de points
+     * et empeche le faite d'obtenir deux fois la même combiaison
+     * @param tabDes le tableau conteneant les dés
+     * @param combinaisonDejaObtenu Tableau des comninaison déja obtenu
+     * @return le nombre de points obtenue
+     */
+    private static int resultatPoint(int[] tabDes , boolean[] combinaisonDejaObtenu) {
         int nbrPoints = 0;
-        System.out.println("Vous avez eu un ");
-        if (estYams(tabDes)) {
-            System.out.println("Yams.");
-            nbrPoints = 50;
-        } else if (estFull(tabDes, NOMBRE_DES)) {
-            System.out.println("Full.");
-            nbrPoints = 25;
-        } else if (estCarre(tabDes, NOMBRE_DES)) {
-            System.out.println("Carre.");
-        } else if (estBrelan(tabDes, NOMBRE_DES)) {
-            System.out.println("Brelan.");
-        } else if (estGrandeSuite(tabDes)) {
-            System.out.println("e grande suite.");
-            nbrPoints = 40;
-        } else if (estPetiteSuite(tabDes)) {
-            System.out.println("e petite suite.");
-            nbrPoints = 30;
+        int[] faceIdentique = new int[1];
+
+        System.out.print("Vous avez eu un");
+        if (estYams(tabDes) && !combinaisonDejaObtenu[0]) {
+            System.out.print(" Yams.");
+            nbrPoints = NBR_POINT_YAMS;
+            combinaisonDejaObtenu[0] = true;
+
+        } else if (estFull(tabDes, NOMBRE_DES, faceIdentique) && !combinaisonDejaObtenu[1]) {
+            System.out.print(" Full.");
+            nbrPoints = NBR_POINT_FULL;
+            combinaisonDejaObtenu[1] = true;
+
+        } else if (estCarre(tabDes, NOMBRE_DES, faceIdentique) && !combinaisonDejaObtenu[2]) {
+            System.out.print(" Carre.");
+            nbrPoints = faceIdentique[0] * NBR_DES_CARRE;
+            combinaisonDejaObtenu[2] = true;
+
+        } else if (estBrelan(tabDes, NOMBRE_DES, faceIdentique) && !combinaisonDejaObtenu[3]) {
+            System.out.print(" Brelan.");
+            nbrPoints = faceIdentique[0] * NBR_DES_BRELAN;
+            combinaisonDejaObtenu[3] = true;
+
+        } else if (estGrandeSuite(tabDes) && !combinaisonDejaObtenu[4]) {
+            System.out.print("e grande suite.");
+            nbrPoints = NBR_POINT_GRANDE_SUITE;
+            combinaisonDejaObtenu[4] = true;
+
+        } else if (estPetiteSuite(tabDes) && !combinaisonDejaObtenu[5]) {
+            System.out.print("e petite suite.");
+            nbrPoints = NBR_POINT_PETITE_SUITE;
+            combinaisonDejaObtenu[5] = true;
+
+        } else if (!combinaisonDejaObtenu[6]){
+            System.out.print("e chance");
+            nbrPoints = calculeSommeTableauEntier(tabDes);
+            combinaisonDejaObtenu[6] = true;
         } else {
-            System.out.println("e chance");
+            System.out.print("e combinaison déja obtenu");
         }
-        System.out.println("Vous recevez " + nbrPoints);
+        System.out.println();
+        System.out.println("Vous recevez " + nbrPoints + " points");
+
+        return nbrPoints;
     }
 
     public static void main(String[] args) {
         afficheDebutJeu();
+        boolean[] combinaisonDejaObtenu = new boolean[7];
+        int nbrPoints = 0;
 
         for (int i = 0; i < NOMBRE_MANCHE; i++) {
-            System.out.println(BLUE + "Manche : " + RED + (i + 1) + RESET);
+            System.out.println(CYAN + "Manche " + (i + 1) + RESET);
             int[] tabDes = lancerXDe(NOMBRE_DES, NOMBRE_FACES);
             affichageComplet(tabDes);
             relancerDes(tabDes, NOMBRE_TOURS, NOMBRE_FACES);
-            resultatPoint(tabDes);
+            nbrPoints += resultatPoint(tabDes, combinaisonDejaObtenu);
+            System.out.println(RED + "Fin de la mache " + (i + 1)+ RESET);
+            System.out.println();
+
+            // Affichage fin de jeu
+            if (i == NOMBRE_MANCHE - 1) {
+                System.out.println(CYAN + "Total des points obtenus : " + nbrPoints + RESET);
+            }
         }
+
     }
 }
