@@ -8,13 +8,12 @@ public class MainDeDés extends DéAJouer {
         for (int i = 0; i < nbrDesAJouer; i++) {
             tabDesEnMain[i] = lancer();
         }
-        return lesDes;
+        return tabDesEnMain;
     }
 
     public void affchiageMainDeDés() {
-        int[] tabFaceVisible = lancerDesEnMain();
-        for (int i = 0; i < tabFaceVisible.length; i++) {
-            System.out.println("Dé [" + (i + 1) + "] : " + tabFaceVisible[i]);
+        for (int i = 0; i < tabDesEnMain.length; i++) {
+            System.out.println("Dé [" + (i + 1) + "] : " + tabDesEnMain[i]);
         }
     }
 }
