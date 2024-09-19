@@ -26,15 +26,7 @@ public class Main {
     private static final String PURPLE = "\u001B[35m";
     private static final String RESET = "\u001B[0m";
 
-    /**
-     * Prend un nombre aléatoire entre 1 et le nombre donné (simulation d'un dé)
-     * @param nbrFace le nombre max que l'on peut tirer
-     * @return le nombre aléatoire obtenu
-     */
-    private static int lancerUnDe(int nbrFace) {
-        Random random = new Random();
-        return random.nextInt(nbrFace) + 1;
-    }
+
 
     /**
      * Prend plusieurs nombres aléatoire en fonction du nombre donné en paramètre (simulation de plusieurs dés lancé)
