@@ -211,8 +211,6 @@ public class Main {
     }
     */
    public static void main(String[] args) {
-       MainDeDés mainDeDés = new MainDeDés();
-       mainDeDés.lancerDesEnMain();
-       mainDeDés.affchiageMainDeDés();
+
    }
 }

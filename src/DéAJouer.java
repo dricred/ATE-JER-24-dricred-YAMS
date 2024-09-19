@@ -13,10 +13,4 @@ public class DéAJouer {
         return faceVisible;
     }
 
-    @Override
-    public boolean equals(Object autreObj) {
-            return autreObj instanceof DéAJouer &&
-                    this.nbrFace == ((DéAJouer)autreObj).nbrFace &&
-                    this.faceVisible == ((DéAJouer)autreObj).faceVisible;
-    }
 }

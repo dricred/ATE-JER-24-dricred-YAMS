@@ -2,15 +2,11 @@ package src;
 
 public class MainDeDés extends DéAJouer {
     private int nbrDesAJouer = 5;
-    private int[] tabFaceVisible;
-
-    public MainDeDés() {
-    }
+    private int[] tabDesEnMain = new int [nbrDesAJouer];
 
     public int[] lancerDesEnMain () {
-        int[] lesDes = new int[nbrDesAJouer];
         for (int i = 0; i < nbrDesAJouer; i++) {
-            lesDes[i] = lancer();
+            tabDesEnMain[i] = lancer();
         }
         return lesDes;
     }
