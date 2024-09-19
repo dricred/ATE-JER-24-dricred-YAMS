@@ -1,45 +1,22 @@
 package src;
 
-import java.util.Random;
-
 public class DéAJouer {
-    private int nbrFaces;
+    private int nbrFace = 6;
     private int faceVisible;
 
-    /**
-     * Construit un dé à jouer avec le nombre de face donné, la face visible donnée et la couleur donnée
-     * @param nbrFaces Nombre de face du dé
-     */
-    public DéAJouer(int nbrFaces) {
-        setNbreFaces(nbrFaces);
+    public DéAJouer() {
+
     }
 
-    public int getNbrFaces() {
-        return nbrFaces;
-    }
-
-    public int getFaceVisible() {
+    public int lancer() {
+        faceVisible = (int)(Math.random() * nbrFace + 1);
         return faceVisible;
     }
 
-    public void setFaceVisible(int faceVisible) {
-        this.faceVisible = faceVisible;
-    }
-
-    public void setNbreFaces(int nbreFaces) {
-        if (nbreFaces >= 2) {
-            this.nbrFaces = nbreFaces;
-        }
-    }
-
-    /**
-     * lance ce dé
-     *
-     * @return la face visible de ce dé
-     */
-    private int lancer() {
-        Random random = new Random();
-        faceVisible = random.nextInt(nbrFaces) + 1;
-        return faceVisible;
+    @Override
+    public boolean equals(Object autreObj) {
+            return autreObj instanceof DéAJouer &&
+                    this.nbrFace == ((DéAJouer)autreObj).nbrFace &&
+                    this.faceVisible == ((DéAJouer)autreObj).faceVisible;
     }
 }
