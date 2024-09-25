@@ -30,6 +30,7 @@ public class Combinaison {
             for (int indexSuivants = indexActuel + 1; indexSuivants < desEnMain.nbrDes; indexSuivants++) {
                 if (desEnMain.faceVisible[indexActuel] == desEnMain.faceVisible[indexSuivants]) {
                     desIdentique++;
+
                 }
             }
         }
