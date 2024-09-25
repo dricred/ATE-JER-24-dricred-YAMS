@@ -15,7 +15,6 @@ public class Résultat {
 
     public int resultatPoint() {
         int nbrPoints = 0;
-        int[] faceIdentique = new int[1];
 
         System.out.print("Vous avez eu un");
         if (combi.estYams() && !combi.combinaisonDejaObtenu[0]) {
@@ -30,12 +29,12 @@ public class Résultat {
 
         } else if (combi.estCarre() && !combi.combinaisonDejaObtenu[2]) {
             System.out.print(" Carre.");
-            nbrPoints = faceIdentique[0] * NBR_DES_CARRE;
+            nbrPoints = combi.faceIdentique[0] * NBR_DES_CARRE;
             combi.combinaisonDejaObtenu[2] = true;
 
         } else if (combi.estBrelan() && !combi.combinaisonDejaObtenu[3]) {
             System.out.print(" Brelan.");
-            nbrPoints = faceIdentique[0] * NBR_DES_BRELAN;
+            nbrPoints = combi.faceIdentique[0] * NBR_DES_BRELAN;
             combi.combinaisonDejaObtenu[3] = true;
 
         } else if (combi.estGrandeSuite() && !combi.combinaisonDejaObtenu[4]) {

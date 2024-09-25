@@ -31,18 +31,18 @@ public class Main {
      * Affiche le total des valeurs entier d'un tableau
      * @param tableauEntiers le tableau contenant des valeurs entières
      */
-    private static void afficheSommeTableauEntier(int[] tableauEntiers) {
-        System.out.println("Toltal des dés : " + calculeSommeTableauEntier(tableauEntiers));
+    private static void afficheSommeTableauEntier(int[] tableauEntiers, Combinaison combinaison) {
+        System.out.println("Toltal des dés : " + combinaison.calculerSommeDes());
     }
 
     /**
      * Fait un affichage complet pour tous nos dés (leur face visible + la somme de ces faces)
      * @param tableauEntiers le tableau contenant des valeurs entières
      */
-    private static void affichageComplet(int[] tableauEntiers) {
+    private static void affichageComplet(int[] tableauEntiers, Combinaison combinaison) {
         System.out.println(PURPLE + "Dés obtenues : " + RESET);
         affichageTableau(tableauEntiers);
-        afficheSommeTableauEntier(tableauEntiers);
+        afficheSommeTableauEntier(tableauEntiers, combinaison);
     }
 
     /**
@@ -81,7 +81,7 @@ public class Main {
      * @param nbrJetDe       le nombre de tours disponible
      * @param nbrFaces       le nombre max que l'on peut tirer
      */
-    private static void relancerDes(int[] tableauEntiers, int nbrJetDe, int nbrFaces) {
+    private static void relancerDes(int[] tableauEntiers, int nbrJetDe, int nbrFaces, DesEnMain desEnMain, Combinaison combinaison) {
         int nbrLancer = 1;
         String reponseOuiOuNon = "";
         boolean estOui = false;
@@ -93,9 +93,9 @@ public class Main {
 
             if (estOui) {
                 for (String element : retourneValeurEcrit()) {
-                    tableauEntiers[Integer.parseInt(element) - 1] = lancerUnDe(nbrFaces);
+                    tableauEntiers[Integer.parseInt(element) - 1] = desEnMain.lancerUnDe();
                 }
-                affichageComplet(tableauEntiers);
+                affichageComplet(tableauEntiers, combinaison);
             }
         } while (estOui && nbrLancer < nbrJetDe);
     }
@@ -111,22 +111,20 @@ public class Main {
         debutJeu.nextLine();
     }
 
-
     public static void main(String[] args) {
         afficheDebutJeu();
 
         int nbrPoints = 0;
 
-
-
         for (int i = 0; i < NOMBRE_MANCHE; i++) {
             DesEnMain mainDeDes = new DesEnMain();
             Combinaison combinaison = new Combinaison(mainDeDes);
+            Résultat resultat = new Résultat();
             System.out.println(CYAN + "Manche " + (i + 1) + RESET);
             mainDeDes.lancerXDe();
-            affichageComplet(mainDeDes.faceVisible);
-            relancerDes(mainDeDes.faceVisible, NOMBRE_TOURS, NOMBRE_FACES);
-            nbrPoints += resultatPoint(mainDeDes.faceVisible, combinaisonDejaObtenu, combinaison);
+            affichageComplet(mainDeDes.faceVisible, combinaison);
+            relancerDes(mainDeDes.faceVisible, NOMBRE_TOURS, NOMBRE_FACES, mainDeDes, combinaison);
+            nbrPoints += resultat.resultatPoint();
             System.out.println(RED + "Fin de la mache " + (i + 1)+ RESET);
             System.out.println();
 

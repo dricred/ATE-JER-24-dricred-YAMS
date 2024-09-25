@@ -10,7 +10,8 @@ public class Combinaison {
     private static final int NBR_COMBI_POSSIBLE = 7;
 
     public DesEnMain desEnMain;
-    boolean[] combinaisonDejaObtenu = new boolean[NBR_COMBI_POSSIBLE];
+    public boolean[] combinaisonDejaObtenu = new boolean[NBR_COMBI_POSSIBLE];
+    public int[] faceIdentique = new int[1];
 
     public Combinaison(DesEnMain desEnMain) {
         this.desEnMain = desEnMain;
