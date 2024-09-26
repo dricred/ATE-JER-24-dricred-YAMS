@@ -119,12 +119,10 @@ public class Main {
         for (int i = 0; i < NOMBRE_MANCHE; i++) {
             DesEnMain mainDeDes = new DesEnMain();
             Combinaison combinaison = new Combinaison(mainDeDes);
-            Résultat resultat = new Résultat();
             System.out.println(CYAN + "Manche " + (i + 1) + RESET);
             mainDeDes.lancerXDe();
             affichageComplet(mainDeDes.faceVisible, combinaison);
             relancerDes(mainDeDes.faceVisible, NOMBRE_TOURS, NOMBRE_FACES, mainDeDes, combinaison);
-            nbrPoints += resultat.resultatPoint();
             System.out.println(RED + "Fin de la mache " + (i + 1)+ RESET);
             System.out.println();
 
