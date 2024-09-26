@@ -9,6 +9,11 @@ public class Main {
     private static final int NOMBRE_TOURS = 3;
     private static final int NOMBRE_MANCHE = 5;
 
+    // Paramètres Des points
+    private static final int NBR_POINT_YAMS = 50;
+    private static final int NBR_POINT_FULL = 25;
+    private static final int NBR_POINT_GRANDE_SUITE = 40;
+    private static final int NBR_POINT_PETITE_SUITE = 30;
 
     // Les couleurs d'affichage
     private static final String RED = "\u001B[31m";
