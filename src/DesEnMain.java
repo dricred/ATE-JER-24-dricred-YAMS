@@ -35,6 +35,11 @@ public class DesEnMain {
     }
 
     public void setFaceVisible(int[] faceVisible) {
+        for (int face : faceVisible) {
+            if (face > nbrFace) {
+                return;
+            }
+        }
         this.faceVisible = faceVisible;
     }
 
@@ -52,9 +57,11 @@ public class DesEnMain {
      * @return les de faces dés de cette main
      */
     public int[] lancerXDe() {
+        int[] desFaceVisible = new int[nbrDes];
         for (int i = 0; i < nbrDes; i++) {
-            faceVisible[i] += lancerUnDe();
+            desFaceVisible[i] += lancerUnDe();
         }
+        setFaceVisible(desFaceVisible);
         return faceVisible;
     }
 }

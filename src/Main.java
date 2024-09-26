@@ -112,12 +112,11 @@ public class Main {
         afficheDebutJeu();
 
         int nbrPoints = 0;
+        DesEnMain mainDeDes = new DesEnMain();
+        Combinaison combinaison = new Combinaison(mainDeDes);
+        Résultat résultat = new Résultat(combinaison);
+
         for (int i = 0; i < NOMBRE_MANCHE; i++) {
-
-            DesEnMain mainDeDes = new DesEnMain();
-            Combinaison combinaison = new Combinaison(mainDeDes);
-            Résultat résultat = new Résultat(combinaison);
-
             System.out.println(CYAN + "Manche " + (i + 1) + RESET);
             mainDeDes.lancerXDe();
             affichageComplet(mainDeDes.getFaceVisible(), combinaison);
